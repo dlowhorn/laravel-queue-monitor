@@ -54,7 +54,8 @@ class Job implements ShouldQueue
             $status->save();
         } elseif (!$status->isPending()) {
             $log->warning("Non-pending status for check for queue '{$this->queueName}' found in the cache; ignoring: " . $status);
-        } elseif (!$status->getStartTime() || $status->getStartTime()->ne($this->startTime)) {
+        //} elseif (!$status->getStartTime() || $status->getStartTime()->ne($this->startTime)) {
+	} elseif (!$status->getStartTime() || $status->getStartTime()->timestamp != $this->startTime->timestamp) {
             $log->warning("Pending status for check for queue '{$this->queueName}' found in the cache with mismatching time (expected {$this->startTime}, found {$status->getStartTime()}); ignoring: " . $status);
         } else {
             $log->debug("Successful queue check for queue '{$this->queueName}'");
